@@ -1,0 +1,46 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f9ff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  padding: 20px;
+  background: linear-gradient(to right, #00b4d8, #48cae4);
+  color: white;
+}
+
+.doraemon {
+  width: 80px;
+}
+
+main {
+  margin-top: 30px;
+}
+
+.module {
+  display: inline-block;
+  margin: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #90e0ef;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.create-btn {
+  margin-top: 30px;
+  padding: 12px 25px;
+  background: #0077b6;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background: #023e8a;
+}

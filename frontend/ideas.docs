@@ -1,0 +1,42 @@
+Website tạo ra các mini Website bằng cách lựa chọn các tính năng và nhấn nút tạo
+Có thêm các lựa chọn: 
+(1) Chỉ cần zip dự án
+(2) Có cả zip và link website đã deployed (điều kiện là sau khi chọn miền và thanh toán thành công). 
+
+Thêm các template, mỗi template sẽ khác nhau từ UI đến vị trí các component.
+
+
+-----------------------------------
+------------Flow dự kiến-----------
+-----------------------------------
+(1) Người dùng sẽ chọn template cho website của họ
+(2) Chọn các tính năng muốn có phù hợp với template
+(3) Chọn miền (không bắt buộc) 
+(4) Người dùng tiến hành thanh toán dựa trên hóa đơn đã chọn
+    - Nếu có tên miền -> tiến hành deploy website, người dùng sẽ nhận file zip dự án và link website sau khi deployed.
+    - Nếu không có tên miền -> người dùng sẽ nhận file zip dự án.
+
+-----------------------------------
+--------Problems and Solved--------
+-----------------------------------
+Cải tiến so với các web khác và thu hút khách: 
+(1) Giá rẻ cho basic template và basic function và quảng cáo thu hút title 'bảo bối của doreamon' trên tiktok.
+(2) Dự án dạng Open Source, cho phép người dùng đăng sản phẩm để bán
+(3) Độ tin tưởng trong vấn đề giao dịch: Người dùng sẽ nạp tiền để mua xu, và giao dịch sẽ qua xu không cần liên kết thẻ tín dụng.
+(4) Cải tiến: Người dùng sẽ có tài khoản để lưu trữ xu dư và cho phép người dùng điều chỉnh và quản lý trang web của họ
+-----------------------------------
+Pages
+1. Tell me your website? 
+
+There are 3 types to 3 flows
+
+if type 1(portfolio)
+2. Choose template u want?
+3. Choose domain or not
+4. Payment
+
+if type 2(sales)
+2. Choose template or making by theirselves
+3. Choose features
+4. Choose domain or not
+5. Payment

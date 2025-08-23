@@ -1,0 +1,10 @@
+.cart {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 15px 0;
+  background: #fafafa;
+}
+.cart h2 {
+  margin-top: 0;
+  color: #333;
+}

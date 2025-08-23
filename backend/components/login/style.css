@@ -1,0 +1,11 @@
+.login {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 15px 0;
+  background: #f0f8ff;
+}
+.login input {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 5px;
+}

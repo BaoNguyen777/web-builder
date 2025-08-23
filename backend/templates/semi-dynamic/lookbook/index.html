@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kệ Hàng Phối Đồ</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f8f8f8; }
+    .tabs { display: flex; justify-content: center; margin: 20px 0; }
+    .tab { padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent; }
+    .tab.active { border-bottom: 3px solid #333; font-weight: bold; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; padding: 20px; }
+    .item { background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+    .item:hover { transform: scale(1.05); }
+    .item img { width: 100%; display: block; }
+    .item h4 { margin: 10px; font-size: 16px; text-align: center; }
+    .actions { text-align: center; margin-bottom: 10px; }
+    .btn { padding: 5px 10px; margin: 5px; border: none; border-radius: 6px; cursor: pointer; }
+    .btn-save { background: #0073e6; color: white; }
+    .btn-upload { background: #28a745; color: white; }
+    .btn-page { background: #ddd; }
+    /* Popup */
+    .popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .popup-content { background: white; padding: 20px; border-radius: 12px; max-width: 500px; text-align: center; position: relative; animation: zoomIn 0.3s ease; }
+    @keyframes zoomIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .popup-content img { max-width: 100%; border-radius: 10px; }
+    .popup-content h3 { margin: 15px 0 10px; }
+    .popup-content a { display: block; margin: 5px 0; color: #0073e6; text-decoration: none; }
+    .close { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; }
+    .wishlist { background: #fffbe6; padding: 15px; margin: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .wishlist h3 { margin-top: 0; }
+    .upload-form { margin: 20px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('male')">Nam</div>
+    <div class="tab" onclick="switchTab('female')">Nữ</div>
+  </div>
+
+  <!-- Grid -->
+  <div id="male" class="grid"></div>
+  <div id="female" class="grid" style="display:none;"></div>
+
+  <!-- Pagination -->
+  <div class="actions" id="pagination"></div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup" onclick="closePopup(event)">
+    <div class="popup-content" id="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <img id="popup-img" src="" alt="">
+      <h3 id="popup-title"></h3>
+      <div id="popup-links"></div>
+      <button class="btn btn-save" onclick="saveOutfit()">Lưu vào tủ đồ</button>
+    </div>
+  </div>
+
+  <!-- Wishlist -->
+  <div class="wishlist">
+    <h3>Tủ Đồ Đã Lưu</h3>
+    <ul id="wishlist-list"></ul>
+  </div>
+
+  <!-- Upload Outfit -->
+  <div class="upload-form">
+    <h3>Thêm Outfit Mới</h3>
+    <input type="text" id="newTitle" placeholder="Tên Outfit"><br><br>
+    <input type="text" id="newImg" placeholder="Link ảnh"><br><br>
+    <textarea id="newLinks" placeholder="Thông tin sản phẩm (vd: Áo:link; Quần:link)"></textarea><br><br>
+    <button class="btn btn-upload" onclick="addOutfit()">Thêm</button>
+  </div>
+
+  <script>
+    // Dữ liệu outfits
+    let outfits = {
+      male: [
+        {id: "m1", title: "Outfit Nam 1", img: "https://via.placeholder.com/300x400?text=Nam+1", links: [{label:"Áo sơ mi",url:"https://shopee.vn/ao-nam-1"}]},
+        {id: "m2", title: "Outfit Nam 2", img: "https://via.placeholder.com/300x400?text=Nam+2", links: [{label:"Quần jeans",url:"https://shopee.vn/quan-nam-2"}]},
+        {id: "m3", title: "Outfit Nam 3", img: "https://via.placeholder.com/300x400?text=Nam+3", links: [{label:"Áo thun",url:"https://shopee.vn/ao-nam-3"}]}
+      ],
+      female: [
+        {id: "f1", title: "Outfit Nữ 1", img: "https://via.placeholder.com/300x400?text=Nữ+1", links: [{label:"Váy",url:"https://shopee.vn/vay-nu-1"}]},
+        {id: "f2", title: "Outfit Nữ 2", img: "https://via.placeholder.com/300x400?text=Nữ+2", links: [{label:"Chân váy",url:"https://shopee.vn/vay-nu-2"}]},
+        {id: "f3", title: "Outfit Nữ 3", img: "https://via.placeholder.com/300x400?text=Nữ+3", links: [{label:"Áo croptop",url:"https://shopee.vn/ao-nu-3"}]}
+      ]
+    };
+
+    let currentTab = "male";
+    let currentPage = 1;
+    const perPage = 2;
+    let currentOutfit = null;
+    let wishlist = [];
+
+    function renderGrid() {
+      const grid = document.getElementById(currentTab);
+      grid.innerHTML = "";
+      const start = (currentPage - 1) * perPage;
+      const items = outfits[currentTab].slice(start, start + perPage);
+      items.forEach(outfit => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `<img src="${outfit.img}" alt="${outfit.title}"><h4>${outfit.title}</h4>`;
+        div.onclick = () => openPopup(outfit);
+        grid.appendChild(div);
+      });
+      renderPagination();
+    }
+
+    function renderPagination() {
+      const total = Math.ceil(outfits[currentTab].length / perPage);
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+      for (let i = 1; i <= total; i++) {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-page";
+        btn.innerText = i;
+        btn.onclick = () => { currentPage = i; renderGrid(); };
+        if (i === currentPage) btn.style.background = "#0073e6", btn.style.color = "#fff";
+        pagination.appendChild(btn);
+      }
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      currentPage = 1;
+      document.getElementById("male").style.display = tab === "male" ? "grid" : "none";
+      document.getElementById("female").style.display = tab === "female" ? "grid" : "none";
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      renderGrid();
+    }
+
+    function openPopup(outfit) {
+      currentOutfit = outfit;
+      document.getElementById('popup-img').src = outfit.img;
+      document.getElementById('popup-title').innerText = outfit.title;
+      const linksContainer = document.getElementById('popup-links');
+      linksContainer.innerHTML = "";
+      outfit.links.forEach(item => {
+        const a = document.createElement("a");
+        a.href = item.url;
+        a.target = "_blank";
+        a.innerText = `${item.label}: ${item.url}`;
+        linksContainer.appendChild(a);
+      });
+      document.getElementById('popup').style.display = "flex";
+    }
+
+    function closePopup(event) {
+      if (!event || event.target.id === "popup" || event.target.classList.contains("close")) {
+        document.getElementById('popup').style.display = "none";
+      }
+    }
+
+    function saveOutfit() {
+      if (currentOutfit && !wishlist.includes(currentOutfit)) {
+        wishlist.push(currentOutfit);
+        renderWishlist();
+        alert("Đã lưu vào tủ đồ!");
+      }
+    }
+
+    function renderWishlist() {
+      const ul = document.getElementById("wishlist-list");
+      ul.innerHTML = "";
+      wishlist.forEach(item => {
+        const li = document.createElement("li");
+        li.innerText = item.title;
+        ul.appendChild(li);
+      });
+    }
+
+    function addOutfit() {
+      const title = document.getElementById("newTitle").value;
+      const img = document.getElementById("newImg").value;
+      const linksRaw = document.getElementById("newLinks").value;
+      const links = linksRaw.split(";").map(part => {
+        const [label,url] = part.split(":");
+        return {label: label.trim(), url: url.trim()};
+      });
+      outfits[currentTab].push({id: Date.now()+"", title, img, links});
+      renderGrid();
+      alert("Đã thêm outfit mới!");
+    }
+
+    // Khởi động
+    renderGrid();
+  </script>
+</body>
+</html>
