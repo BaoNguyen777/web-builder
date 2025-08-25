@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import apiClient from "../lib/apiClient";
+import apiClient from "@/lib/apiClient";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export default function LoginPage() {
       // Thông báo + điều hướng
       setMessage("✅ Login success!");
       setTimeout(() => {
-        router.push("/StartPage"); // chuyển qua /home
+        router.push("/WebsiteCategory"); // chuyển qua /home
       }, 800); // delay 0.8s để user thấy thông báo
     } catch (err: any) {
       setMessage(err.response?.data?.message || "❌ Login failed");

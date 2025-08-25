@@ -40,3 +40,30 @@ if type 2(sales)
 3. Choose features
 4. Choose domain or not
 5. Payment
+
+--Workflow
+/ -> /login(0) <-> /register
+(0) -> /web-types (chọn loại web: Portfolio, Lookbook, Blog...)
+       -> /web-types?id=1/templates -> (1)
+
+(0) (nếu user đã mua template trước đó)
+       -> /dashboard (quản lý site cũ) -> /site/:id -> (1)
+
+(1) /preview-template -> /edit-template (custom logo, màu, tên)
+       -> nếu template có phí: /payment <-> /feed-money -> /ty
+       -> nếu free: skip payment
+
+/edit-template -> /export(2)
+(2) -> /download-code -> (3)
+(2) -> /deploy-website -> (3)
+
+(3) /site-dashboard (quản lý site sau khi đã export/deploy)
+       - /appearance (đổi logo, màu sắc)
+       - /products (CRUD sản phẩm, upload ảnh, pagination)
+       - /api (API key, docs)
+       - /settings (delete site, custom domain)
+       - /billing (nếu cần)
+
+[Optional Global Routes]
+- /profile (quản lý account, subscription)
+- /help (Docs, support)

@@ -1,6 +1,6 @@
 import express from "express";
 import { createProduct, getProducts, updateProduct, deleteProduct } from "../controllers/product.controller.js";
-import verifyToken from "../middlewares/auth.middleware.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 

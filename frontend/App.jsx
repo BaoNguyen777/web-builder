@@ -1,7 +1,7 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SelectTemplatePage from "./pages/SelectTemplatePage";
-import BuilderStepPage from "./pages/StartPage";
+import BuilderStepPage from "./pages/WebsiteCategory";
 
 export default function App() {
   return (

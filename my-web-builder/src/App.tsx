@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PortfolioTemplatePage from "./pages/PortfolioTemplatePage";
 import PortfolioEditorPage from "./pages/PortfolioEditorPage";
 
-const StartPage = lazy(() => import("./pages/StartPage"));
+const WebsiteCategory = lazy(() => import("./pages/WebsiteCategory"));
 const BuilderStepPage = lazy(() => import("./pages/BuilderStepPage"));
 
 function TopBar() {
@@ -86,7 +86,7 @@ export default function App() {
             path="/"
             element={
               <PageContainer>
-                <StartPage />
+                <WebsiteCategory />
               </PageContainer>
             }
           />

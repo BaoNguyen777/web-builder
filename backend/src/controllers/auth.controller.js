@@ -25,10 +25,12 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // console.log("📌 req.body:", req)
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please enter both email and password" });
+    }
 
     const user = await User.findOne({ email });
-    // console.log("📌 user:", user);
 
     if (!user) return res.status(400).json({ message: "User not found" });
 

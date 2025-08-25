@@ -21,4 +21,11 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-export default verifyToken;
+const isAdmin = (req, res, next) => {
+  if (req.userRole === "admin") {
+    return next();
+  }
+  return res.status(403).json({ message: "Forbidden: Admins only" });
+};
+
+export { verifyToken, isAdmin };

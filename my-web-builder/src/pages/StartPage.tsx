@@ -1,4 +1,4 @@
-// src/pages/StartPage.tsx
+// src/pages/WebsiteCategory.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +31,7 @@ const websiteOptions: WebsiteOption[] = [
   }
 ];
 
-export default function StartPage() {
+export default function WebsiteCategory() {
   const navigate = useNavigate();
 
   const handleSelect = (type: string) => {

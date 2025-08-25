@@ -2,12 +2,13 @@ import mongoose from "mongoose";
 
 
 const templateSchema = new mongoose.Schema({
-  name: String,
+  id: String,
   category: String,
+  name: String,
   description: String,
   previewImage: String,
-  ownerId: mongoose.Schema.Types.ObjectId,
   price: Number,
+  ownerId: mongoose.Schema.Types.ObjectId,
   repoUrl: String,
 }, { timestamps: true });
 

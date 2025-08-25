@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import rocketAnimation from "../../public/rocket.json";
+import rocketAnimation from "@/../../public/rocket.json";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 

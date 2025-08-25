@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import RocketLaunch from "../components/RocketLaunch";
+import RocketLaunch from "@/components/RocketLaunch";
 
 export default function Home() {
   const [launch, setLaunch] = useState(false);
@@ -11,7 +11,7 @@ export default function Home() {
 
   const startLaunch = () => {
     setLaunch(true);
-    setTimeout(() => router.push("/register"), 2000);
+    setTimeout(() => router.push("/login"), 2000);
   };
 
   return (

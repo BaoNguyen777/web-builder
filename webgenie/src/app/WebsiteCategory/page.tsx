@@ -16,40 +16,36 @@ const websiteOptions: WebsiteOption[] = [
     description: "Tạo trang giới thiệu cá nhân chuyên nghiệp."
   },
   {
-    type: "showcase",
-    label: "Showcase",
+    type: "lookbook",
+    label: "Lookbook",
     description: "Trưng bày sản phẩm, bộ sưu tập."
   },
   {
     type: "manage_showcase",
-    label: "Quản lý Showcase",
+    label: "Quản lý Showcase (Coming soon)",
     description: "Hệ thống quản lý và hiển thị sản phẩm."
   },
   {
     type: "booking",
-    label: "Booking",
+    label: "Booking (Coming soon)",
     description: "Hệ thống đặt lịch, đặt phòng."
   }
 ];
 
-export default function StartPage() {
+export default function WebsiteCategory() {
   const router = useRouter();
 
   const handleSelect = (type: string) => {
-    if (type === "portfolio") {
-      router.push("/builder/portfolio/templates");//\builder\portfolio\templates\page.tsx
-    } else {
-      router.push(`/builder/${type}`);
-    }
+    // Chuyển hướng tới trang templates chung
+    router.push(`/templates?type=${type}`);
   };
 
   return (
-    
-     <motion.main
-        layoutId="overlay"
-        className="absolute inset-0 bg-white z-10"
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
+    <motion.main
+      layoutId="overlay"
+      className="absolute inset-0 pt-16 bg-white z-10"
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
         <div className="max-w-5xl mx-auto">
           {/* Tiêu đề */}
@@ -75,7 +71,7 @@ export default function StartPage() {
                 <p className="mt-4 text-gray-600 leading-relaxed">
                   {option.description}
                 </p>
-                <button 
+                <button
                   onClick={() => handleSelect(option.type)}
                   className="mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-300"
                 >
@@ -87,7 +83,5 @@ export default function StartPage() {
         </div>
       </div>
     </motion.main>
-
-    
   );
 }

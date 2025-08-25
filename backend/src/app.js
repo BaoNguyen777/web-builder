@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 import authRoutes from "./routes/auth.routes.js";
-import verifyToken from "./middlewares/auth.middleware.js";
+import { verifyToken } from "./middlewares/auth.middleware.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 
 import templateRoutes from "./routes/template.routes.js";

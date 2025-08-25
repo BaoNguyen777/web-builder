@@ -1,6 +1,6 @@
 import express from "express";
 import { createStore, getStore, updateStore } from "../controllers/store.controller.js";
-import verifyToken from "../middlewares/auth.middleware.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
